@@ -129,8 +129,13 @@ module.exports = grammar({
         _identifier: () => token(prec(5, /[A-Za-z_\.\d\-]+/)),
         number: () => /[0-9\.]+/,
         boolean: () => /(true|false)/,
-        string: ($) => seq('"', repeat(choice(/[^"\n]/, $.variable_ref)), '"'),
-        null: ($) => "null",
+        string: ($) =>
+            choice(seq('"', repeat1($._string_content), '"'), seq('"', '"')),
+        _string_content: ($) =>
+            choice(/[^\\"\n]/, $.variable_ref, $.escape_sequence),
+        escape_sequence: (_) =>
+            token.immediate(seq("\\", /(\"|\\|\/|b|f|n|r|t|u)/)),
+        null: () => "null",
         variable_ref: () =>
             token(prec(2, seq(token(prec(10, "{{")), /[A-Za-z_\.\d]*/, "}}"))),
         rest_of_line: ($) => repeat1(choice(/[^\r\n]/, $.variable_ref)),

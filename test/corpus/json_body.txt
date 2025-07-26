@@ -399,3 +399,27 @@ POST http://localhost/
       (json_key_value
        (identifier) (variable_ref)))))))
 
+=====================
+JSON body with escaped double quotes
+=====================
+POST http://localhost/
+
+{
+  "json_key": "jso\"n_value\"",
+  "json_other_key": null
+}
+
+
+---
+
+(source_file
+  (request
+   (start_line (method) (url (rest_of_line)))
+   (body
+    (json_body
+     (json_object
+      (json_key_value
+       (identifier) (string (escape_sequence) (escape_sequence)))
+      (json_key_value
+       (identifier) (null)))))))
+

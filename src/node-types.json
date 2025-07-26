@@ -350,6 +350,10 @@
       "required": false,
       "types": [
         {
+          "type": "escape_sequence",
+          "named": true
+        },
+        {
           "type": "variable_ref",
           "named": true
         }
@@ -496,6 +500,10 @@
   },
   {
     "type": "boolean",
+    "named": true
+  },
+  {
+    "type": "escape_sequence",
     "named": true
   },
   {
